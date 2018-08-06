@@ -1,6 +1,5 @@
 # gitlab-api
 
-This powershell utility captures ways to connect with gitlab runner using api
-It covers fetching runner ids, tags, ip_address and description.
+Gitlab API gives flexibility to access gitlab resouces such as issues, runners to auomate different components of devOps or software development life cycle.
 
-It uses accesskey to connect to gitlab 
+ - Utility gitlab-api-getrunner-info.ps1 demonstrate use of powershell to connect to gitlab api and fetch runner information.
