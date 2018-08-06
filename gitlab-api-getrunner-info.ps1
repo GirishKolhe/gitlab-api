@@ -36,7 +36,7 @@ param (
 ##########################################################################################################################################
 $private_token = 'private_token='+$accessKey
 $gitAPI = 'api/v4/runners'
-$other_params = 'scope=active&fmt=json'
+$other_params = 'fmt=json'
 
 ############ Start - Functions #################
 
@@ -70,6 +70,13 @@ Function getRunnerDetails ($base, $api, $token, $misc_tokens, $id) {
 	return $response
 }
 
+Function getActiveStatus ($jsonObject) {
+    return $jsonObject.active
+}
+Function getOnlineStatus ($jsonObject) {
+    return $jsonObject.online
+}
+
 Function getRunnerTags ($jsonObject) {
     return $jsonObject.tag_list
 }
@@ -77,6 +84,18 @@ Function getRunnerTags ($jsonObject) {
 Function getRunnerIPAddress ($jsonObject) {
     return $jsonObject.ip_address
 }
+Function getRunnerDescription ($jsonObject) {
+    return $jsonObject.description
+}
+
+Function getRunnerPlatform ($jsonObject) {
+    return $jsonObject.platform
+}
+
+Function getRunnerProjects ($jsonObject) {
+    return $jsonObject.projects
+}
+
 
 ############ Ends - Functions #################
 
@@ -88,11 +107,21 @@ $runnerIDs = getRunnerIDs $uri $gitAPI $private_token $other_params
 foreach ($runnerID in $runnerIDs) {
     #Write-Host $runnerID
     $runnerDetails = getRunnerDetails $uri $gitAPI $private_token $other_params $runnerID
-    #Write-Host $runnerDetails
+	$runnerActiveStatus = getActiveStatus $runnerDetails
+	$runnerOnlineStatus = getOnlineStatus $runnerDetails
     $runnertags = getRunnerTags $runnerDetails
     $runnderIP = getRunnerIPAddress $runnerDetails
+	$runnerDesc = getRunnerDescription $runnerDetails
+	$runnerPlatform = getRunnerPlatform $runnerDetails
+	$runnerProj = getRunnerProjects $runnerDetails
+    Write-Host 'Active status:' $runnerActiveStatus 
+    Write-Host 'Online status:' $runnerOnlineStatus 
     Write-Host 'Runner IP:' $runnderIP 
 	Write-Host 'Tag(s):' [$runnertags]
+	Write-Host 'Description:' [$runnerDesc]
+	Write-Host 'Platform:' [$runnerPlatform]
+	Write-Host 'Projects:' [$runnerProj]
+	Write-Host ''
 }
 Write-Host '**** Execution complete!! ****'
 exit $success
