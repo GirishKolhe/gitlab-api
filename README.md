@@ -5,6 +5,6 @@ Gitlab API gives flexibility to access gitlab resouces such as issues, runners t
 # gitlab-api-getrunner-info.ps1
 Powershell utility that demonstrate use of gitlab api to fetch runner information.
 ``` PowerShell
-*Usage*
-.\gitlab-api-getrunner-info.ps1 -uri http://<IP or Name> -accessKey <accessKey>
+Usage
+> .\gitlab-api-getrunner-info.ps1 -uri http://<IP or Name> -accessKey <accessKey>
 ```
