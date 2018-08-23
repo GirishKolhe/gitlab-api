@@ -3,7 +3,7 @@
 This utility is responsible for initating a remote connection to the gitlab runner having tag [Testing]
 
 .DESCRIPTION
-This powershell script exposes runner information such as id, tags, description, ip_address
+This powershell script exposes runner information such as id, tags, description, ip_address and so on
 
 .PARAMETER uri
 This should be url with http or https protocol of gitlab environment and will be used for gitlab api. e.g. http://<ip or name>
@@ -20,7 +20,7 @@ Version:     1.0.0
 .Scenarios Tested - Invalid gitlab access key
 
 .EXAMPLE
-. .\gitlab-api-getrunner-info.ps1 -uri http://<IP> -accessKey <accessKey>
+. .\gitlab-api-getrunner-info.ps1 -uri http://<IP or domain> -accessKey <accessKey>
 #>
  
 ##########################################################################################################################################
@@ -40,6 +40,7 @@ $other_params = 'fmt=json'
 
 ############ Start - Functions #################
 
+# This function sends request to gitlab server and returns all runner-ids
 Function getRunnerIDs($base, $api, $token, $misc_tokens) {
 	$request = $base+'/'+$api+'?'+$token+'&'+$misc_tokens
 	Try {
@@ -55,6 +56,7 @@ Function getRunnerIDs($base, $api, $token, $misc_tokens) {
 	return $response.id
 }
 
+# This function is responsible for retrieving all the details pertaining to a runner id
 Function getRunnerDetails ($base, $api, $token, $misc_tokens, $id) {
 	$request = $base+'/'+$api+'/'+$id+'?'+$token+'&'+$misc_tokens
 	Try {
@@ -70,28 +72,36 @@ Function getRunnerDetails ($base, $api, $token, $misc_tokens, $id) {
 	return $response
 }
 
+# This function is responsible for retrieving active key from a response json body
 Function getActiveStatus ($jsonObject) {
     return $jsonObject.active
 }
+# This function is responsible for retrieving online key from a response json body
 Function getOnlineStatus ($jsonObject) {
     return $jsonObject.online
 }
 
+# This function is responsible for retrieving tags key from a response json body
 Function getRunnerTags ($jsonObject) {
     return $jsonObject.tag_list
 }
 
+# This function is responsible for retrieving ip_address key from a response json body
 Function getRunnerIPAddress ($jsonObject) {
     return $jsonObject.ip_address
 }
+
+# This function is responsible for retrieving description key from a response json body
 Function getRunnerDescription ($jsonObject) {
     return $jsonObject.description
 }
 
+# This function is responsible for retrieving platform key from a response json body
 Function getRunnerPlatform ($jsonObject) {
     return $jsonObject.platform
 }
 
+# This function is responsible for retrieving projects key from a response json body
 Function getRunnerProjects ($jsonObject) {
     return $jsonObject.projects
 }
@@ -124,4 +134,5 @@ foreach ($runnerID in $runnerIDs) {
 	Write-Host ''
 }
 Write-Host '**** Execution complete!! ****'
-exit $success
+# Because this is a simple script, just returning 0 at the end to stimulate success. Failure is thrown in catch statement in above functions
+exit 0
