@@ -11,4 +11,4 @@ Usage
 ```
 
 ## Highlights
-> powershell cmdlet : Invoke-RestMethod, param validations such as ValidateNotNullOrEmpty()
+> powershell cmdlets : Invoke-RestMethod and param validations such as ValidateNotNullOrEmpty()
